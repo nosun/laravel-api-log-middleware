@@ -1,16 +1,17 @@
 <h1 align="center"> nosun/laravel-api-log-middleware </h1>
 
-<p align="center"> .</p>
+<p align="center">有一些时候，你需要在线查看 API 返回的数据，此时，可以使用这个中间件。</p>
 
 
 ## Installing
 
 ```shell
-$ composer require nosun/laravel-api-log-middleware -vvv
+$ composer require nosun/laravel-api-log-middleware
 ```
 
 ## Usage
-1. set middleware in your App/Http/kernel.php
+
+1. 引入中间件 App/Http/kernel.php
 ```php
     $routeMiddleware = [
         ...
@@ -18,7 +19,7 @@ $ composer require nosun/laravel-api-log-middleware -vvv
     ]
 ```
 
-2. set api log in your config/logging.php
+2. 设置单独的日志通道 config/logging.php
 ```php
     'api' => [
         'driver' => 'single',
@@ -28,7 +29,7 @@ $ composer require nosun/laravel-api-log-middleware -vvv
     ]
 ```
 
-3. create config file config/api-log.php
+3. 创建配置文件 config/api-log.php
 ```php
     <?php
     
@@ -36,19 +37,18 @@ $ composer require nosun/laravel-api-log-middleware -vvv
         'enable' => env('API_LOG_ENABLE','false'),
     ];
 ```
-4. If you want get some api log, you can put middleware `api_log` for the route, then put `API_LOG_ENABLE=true` in your .env file
+4. 将 `api_log` 加入路由, 将 `API_LOG_ENABLE=true` 加入 .env
 
-5. You can get api log at the file "storage/logs/api.log"
+5. 查看输出日志： "storage/logs/api.log"
+
+
+## Todo
+
+- 开发 console，使用 artisan 发布 config file。
 
 ## Contributing
 
-You can contribute in one of three ways:
-
-1. File bug reports using the [issue tracker](https://github.com/nosun/laravel-api-log-middleware/issues).
-2. Answer questions or fix bugs on the [issue tracker](https://github.com/nosun/laravel-api-log-middleware/issues).
-3. Contribute new features or update the wiki.
-
-_The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
+File bug reports using the [issue tracker](https://github.com/nosun/laravel-api-log-middleware/issues).
 
 ## License
 
