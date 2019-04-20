@@ -1,0 +1,20 @@
+{
+    "name": "nosun\/laravel-api-log-middleware",
+    "description": "Api Log Middleware for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nosun",
+            "email": "nosun2008@126.com"
+        }
+    ],
+    "require": {
+      "php": ">=7.0.0",
+      "laravel/framework": "~5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nosun\\ApiLog\\": "src"
+        }
+    }
+}
