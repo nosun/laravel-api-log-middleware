@@ -10,8 +10,35 @@ $ composer require nosun/laravel-api-log-middleware -vvv
 ```
 
 ## Usage
+1. set middleware in your App/Http/kernel.php
+```php
+    $routeMiddleware = [
+        ...
+       'api_log' => Nosun\ApiLog::class,
+    ]
+```
 
-TODO
+2. set api log in your config/logging.php
+```php
+    'api' => [
+        'driver' => 'single',
+        'path' => storage_path('logs/api.log'),
+        'level' => 'debug',
+        'days' => 1,
+    ]
+```
+
+3. create config file config/api-log.php
+```php
+    <?php
+    
+    return [
+        'enable' => env('API_LOG_ENABLE','false'),
+    ];
+```
+4. If you want get some api log, you can put middleware `api_log` for the route, then put `API_LOG_ENABLE=true` in your .env file
+
+5. You can get api log at the file "storage/logs/api.log"
 
 ## Contributing
 
