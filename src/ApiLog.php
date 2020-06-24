@@ -1,6 +1,6 @@
 <?php
 
-namespace Nosun\ApiLog;
+namespace Nosun\Middleware;
 
 use Closure;
 use Log;
