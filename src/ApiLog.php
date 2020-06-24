@@ -19,44 +19,40 @@ class ApiLog
      */
     public function handle($request, Closure $next)
     {
-
-        if(!defined('LARAVEL_START')){
-            define('LARAVEL_START',microtime(true));
-        }
+        $request->header('accept', 'application/json');
 
         $response = $next($request);
 
-        $request->header('accept','application/json');
+        if (config('apilog.enable') == true) {
 
-        if (config('api-log.enable') == true) {
+            $delimiter = config('apilog.delimiter');
 
-            $delimiter = config('api-log.delimiter');
+            $data[] = $request->getClientIp();
 
-            $req = [
-                'url' => $request->url(),
-                'header' => $request->header(),
-                'body' => $request->post(),
-            ];
-
-            $data = [
-                'request' => $req,
-                'response' => $response,
-            ];
-
-            $executionTime = 0;
-
-            if (config('api-log.execute_time') == true) {
-                $executionTime = floor(1000000 * (microtime(true) - LARAVEL_START));
+            if (config('apilog.execute_time') == true) {
+                $data[] = floor(1000 * (microtime(true) - LARAVEL_START));
             }
 
-            $message = implode($delimiter, [
-                $request->getClientIp(),
-                $executionTime,
-                json_encode($data)
-            ]);
+            $data[] = $request->url();
+
+            if (config('apilog.request_header') == true) {
+                $data[] = json_encode($request->header());
+            }
+
+            if ($request->method() == 'POST' && config('apilog.request_body') == true) {
+                $data[] = json_encode($request->post());
+            }
+
+            if (config('apilog.response') == true) {
+                $data[] = json_encode($response);
+            }
+
+            $message = implode($delimiter, $data);
 
             Log::channel('api')->info($message);
         }
+
+        return $response;
 
     }
 }
